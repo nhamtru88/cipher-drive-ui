@@ -4,6 +4,9 @@
 [build.environment]
   NODE_VERSION = "21"
 
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 
 [[headers]]
   for = "*.js"
