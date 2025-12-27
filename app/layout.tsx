@@ -6,10 +6,26 @@ import Providers from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'CipherDrive - Zama',
-  description: 'Encrypt, register, and decrypt file access keys with FHE',
-};
+// eslint-disable-next-line react-refresh/only-export-components
+export function generateMetadata(): Metadata {
+  return {
+    title: 'Cipher Drive - Secure File Storage with FHE',
+    description: 'Encrypt, register, and decrypt file access keys with Fully Homomorphic Encryption (FHE). Secure file storage using Zama FHE, IPFS, and blockchain.',
+    metadataBase: new URL('https://cipher-drive.netlify.app'),
+    openGraph: {
+      title: 'Cipher Drive - Secure File Storage with FHE',
+      description: 'Encrypt, register, and decrypt file access keys with Fully Homomorphic Encryption (FHE).',
+      url: 'https://cipher-drive.netlify.app',
+      siteName: 'Cipher Drive',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Cipher Drive - Secure File Storage with FHE',
+      description: 'Encrypt, register, and decrypt file access keys with Fully Homomorphic Encryption (FHE).',
+    },
+  };
+}
 
 export default function RootLayout({
   children,

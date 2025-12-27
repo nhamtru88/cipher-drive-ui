@@ -2,6 +2,8 @@
 
 A Next.js web application for secure file storage using Zama FHE (Fully Homomorphic Encryption), IPFS, and blockchain.
 
+🌐 **Live Demo**: [https://cipher-drive.netlify.app/](https://cipher-drive.netlify.app/)
+
 ## Features
 
 - 🔐 **Secure Encryption**: Uses Zama FHE Relayer SDK to encrypt metadata with Fully Homomorphic Encryption
@@ -180,5 +182,6 @@ Private repository - All rights reserved
 
 ## Contact
 
+- 🌐 **Live Demo**: [https://cipher-drive.netlify.app/](https://cipher-drive.netlify.app/)
 - Repository: [cipher-drive-ui](https://github.com/nhamtru88/cipher-drive-ui)
 - Email: movexmanager8888@gmail.com
