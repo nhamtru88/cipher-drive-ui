@@ -1,4 +1,4 @@
-# Confidential Storage UI
+# Cipher Drive
 
 A Next.js web application for secure file storage using Zama FHE (Fully Homomorphic Encryption), IPFS, and blockchain.
 
@@ -34,7 +34,7 @@ A Next.js web application for secure file storage using Zama FHE (Fully Homomorp
 
 1. Clone the repository:
 ```bash
-git clone git@github.com-movex8888:nhamtru88/cipher-drive-ui.git
+git clone https://github.com/nhamtru88/cipher-drive-ui.git
 cd cipher-drive-ui
 ```
 
@@ -48,9 +48,6 @@ npm install
 # Pinata API keys (if needed)
 PINATA_JWT=your_pinata_jwt_token
 PINATA_GATEWAY=your_pinata_gateway_url
-
-# Zama Relayer (if custom configuration is needed)
-ZAMA_RELAYER_URL=https://relayer.zama.ai
 ```
 
 4. Run the development server:
