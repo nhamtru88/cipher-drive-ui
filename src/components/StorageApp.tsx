@@ -83,14 +83,21 @@ export function StorageApp() {
       owner: Address;
       createdAt: bigint;
     }[];
-    return raw.map((item) => ({
-      id: item.id,
-      filename: item.filename,
-      encryptedHash: item.encryptedHash,
-      encryptedAccount: item.encryptedAccount,
-      owner: item.owner,
-      createdAt: item.createdAt,
-    }));
+    return raw
+      .map((item) => ({
+        id: item.id,
+        filename: item.filename,
+        encryptedHash: item.encryptedHash,
+        encryptedAccount: item.encryptedAccount,
+        owner: item.owner,
+        createdAt: item.createdAt,
+      }))
+      .sort((a, b) => {
+        // Sort by createdAt descending (newest first)
+        if (a.createdAt > b.createdAt) return -1;
+        if (a.createdAt < b.createdAt) return 1;
+        return 0;
+      });
   }, [filesData]);
 
   const resetFileInput = () => {
@@ -420,7 +427,7 @@ export function StorageApp() {
             <div className="modal-container">
               <section className="card upload-card modal-content">
                 <div className="upload-card__header">
-                  <h2>Register a confidential document</h2>
+                  <h2>Upload File</h2>
                   <button
                     type="button"
                     className="close-button"
@@ -441,16 +448,67 @@ export function StorageApp() {
                   then the IPFS hash (CID) will be encrypted with a random address and stored on-chain.
                 </p>
 
-                <label className="file-picker">
-                  <span>Choose a file</span>
-                  <input ref={fileInputRef} type="file" onChange={handleFileChange} disabled={isStoring} />
-                </label>
+                {prepared ? (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                    <span style={{ color: 'var(--text-primary)', fontWeight: 500 }}>{prepared.file.name}</span>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setPrepared(null);
+                        setStatus(null);
+                        resetFileInput();
+                      }}
+                      disabled={isStoring}
+                      style={{
+                        background: 'rgba(239, 68, 68, 0.15)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '50%',
+                        width: '24px',
+                        height: '24px',
+                        cursor: isStoring ? 'not-allowed' : 'pointer',
+                        padding: 0,
+                        fontSize: '1.25rem',
+                        lineHeight: 1,
+                        color: 'var(--accent-error)',
+                        opacity: isStoring ? 0.5 : 1,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'all 0.2s ease',
+                        flexShrink: 0,
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isStoring) {
+                          e.currentTarget.style.background = 'rgba(239, 68, 68, 0.25)';
+                          e.currentTarget.style.borderColor = 'var(--accent-error)';
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)';
+                        e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                        e.currentTarget.style.transform = 'scale(1)';
+                      }}
+                      aria-label="Clear selection"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ) : (
+                  <label className="file-picker" style={{ marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+                     <input ref={fileInputRef} type="file" onChange={handleFileChange} disabled={isStoring} style={{ textAlign: 'center' }} />
+                  </label>
+                )}
 
                 {status && <p className="status-message">{status}</p>}
                 {error && <p className="error-message">{error}</p>}
                 {zamaError && <p className="error-message">{zamaError}</p>}
 
-                <div className="actions-row">
+                {renderPreparedSummary()}
+
+                <div className="actions-row" style={{ display: 'flex', justifyContent: 'center' }}>
                   <button
                     type="button"
                     className="primary-button"
@@ -459,21 +517,7 @@ export function StorageApp() {
                   >
                     {zamaLoading ? 'Connecting to relayer...' : isStoring ? 'Uploading...' : 'Upload'}
                   </button>
-                  <button
-                    type="button"
-                    className="secondary-button"
-                    onClick={() => {
-                      setPrepared(null);
-                      setStatus(null);
-                      resetFileInput();
-                    }}
-                    disabled={isStoring}
-                  >
-                    Clear selection
-                  </button>
                 </div>
-
-                {renderPreparedSummary()}
               </section>
             </div>
           </>
@@ -565,7 +609,7 @@ export function StorageApp() {
                         <p className="file-row__date">
                           Stored {new Date(Number(file.createdAt) * 1000).toLocaleString()}
                         </p>
-                        <p className="file-row__cipher mono">Ciphertext: {file.encryptedHash}</p>
+                       
                       </div>
                       <div className="file-row__actions">
                         {decryptedRecord ? (
