@@ -230,7 +230,7 @@ export function StorageApp() {
     }
 
     setIsStoring(true);
-    setStatus('Uploading file to IPFS via Pinata...');
+    setStatus('Uploading file to IPFS...');
     setError(null);
 
     try {
@@ -322,10 +322,10 @@ export function StorageApp() {
           throw new Error('Decryption result is empty.');
         }
 
-        const hash = await decryptHashWithAddress(decryptedAddress, record.encryptedHash);
+        const hash = await decryptHashWithAddress(decryptedAddress.toString(), record.encryptedHash);
         setDecrypted((prev) => ({
           ...prev,
-          [record.id.toString()]: { address: decryptedAddress, hash },
+          [record.id.toString()]: { address: decryptedAddress.toString(), hash },
         }));
       } catch (err) {
         console.error(err);
@@ -437,7 +437,7 @@ export function StorageApp() {
                   </button>
                 </div>
                 <p className="section-description">
-                  Select a file to upload. When you click Upload, the file will be uploaded to IPFS via Pinata,
+                  Select a file to upload. When you click Upload, the file will be uploaded to IPFS,
                   then the IPFS hash (CID) will be encrypted with a random address and stored on-chain.
                 </p>
 

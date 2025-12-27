@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(buffer, {
       headers: {
         'Content-Type': blob.type || 'application/octet-stream',
-        'Content-Disposition': `attachment; filename="${encodeURIComponent(filename)}"`,
+        'Content-Disposition': `attachment; filename="${encodeURIComponent(filename || 'download')}"`,
       },
     });
   } catch (error) {
