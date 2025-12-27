@@ -481,7 +481,61 @@ export function StorageApp() {
 
         <section className="card">
           <div className="section-heading">
-            <h2>Files</h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', width: '100%' }}>
+              <h2 style={{ margin: 0 }}>Files</h2>
+              {address && (
+                <button
+                  type="button"
+                  onClick={() => refetchFiles()}
+                  disabled={isFetchingFiles}
+                  title="Reload files list"
+                  style={{
+                    marginLeft: 'auto',
+                    background: 'none',
+                    border: 'none',
+                    cursor: isFetchingFiles ? 'not-allowed' : 'pointer',
+                    padding: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    opacity: isFetchingFiles ? 0.6 : 1,
+                    transition: 'opacity 0.2s',
+                  }}
+                >
+                  {isFetchingFiles ? (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#ffd208"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      style={{ animation: 'spin 1s linear infinite' }}
+                    >
+                      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                    </svg>
+                  ) : (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#ffd208"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                      <path d="M21 3v5h-5" />
+                      <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                      <path d="M3 21v-5h5" />
+                    </svg>
+                  )}
+                </button>
+              )}
+            </div>
             {address ? null : <p className="section-description">Connect your wallet to view stored files.</p>}
           </div>
 
